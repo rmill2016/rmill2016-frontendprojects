@@ -1,48 +1,43 @@
 import React, { useEffect, useState } from 'react'
 
 type Items = {
-    thumbnail: string
     name: string
     price: number
-    quantitiy: number
+    value: number
+    activeSlide: number
 }
 
-const Cart = ({ items }: { items: number }) => {
-    /* Cart is responsible for holding current items in cart */
-    const [cart, setCart] = useState<Items[]>([])
-    /* Passing number of items in cart to items prop */
-    const [numItems, setItems] = useState<number>(0)
+const Cart = (props: any) => {
+    const { items }: { items: Items[] } = props.items
 
     const handleCheckout = () => {}
     const handleDelete = () => {}
-
-    useEffect(() => {
-        setItems(cart.length)
-    }, [cart])
-
-    items = numItems
 
     return (
         <div className="flex flex-col w-full h-auto gap-6 shadow-xl bg-neutral-white rounded-xl aspect-video">
             <p className="pt-6 pl-6 font-semibold">Cart</p>
             <hr className="w-full h-px p-0 bg-neutral-grayBlue" />
-            {cart.length > 0 &&
-                cart.map((item, index) => (
+            {items &&
+                items.map((value, index) => (
                     <div
                         key={index}
                         className="grid grid-cols-[50px_1fr_25px] grid-rows-2 grid-flow-row"
                     >
                         <img
-                            src={item.thumbnail}
-                            alt={item.name}
+                            src={`images/image-product-${
+                                value.activeSlide + 1
+                            }-thumbnail.jpg`}
+                            alt="product"
                             className="w-12 h-auto aspect-square rounded-2xl"
                         />
                         <div className="flex flex-col items-start justify-between w-full h-full">
-                            <p className="text-neutral-grayBlue">{item.name}</p>
                             <p className="text-neutral-grayBlue">
-                                ${item.price} x {item.quantitiy}{' '}
+                                {value.name}
+                            </p>
+                            <p className="text-neutral-grayBlue">
+                                ${value.price} x {value.value}{' '}
                                 <span className="text-neutral-black">
-                                    ${item.price * item.quantitiy}
+                                    ${value.price * value.value}
                                 </span>
                             </p>
                         </div>
@@ -55,7 +50,7 @@ const Cart = ({ items }: { items: number }) => {
                         />
                     </div>
                 ))}
-            {cart.length > 0 && (
+            {items && (
                 <button
                     id="checkout"
                     className="w-full h-auto py-4 text-white bg-primary-orange rounded-2xl"

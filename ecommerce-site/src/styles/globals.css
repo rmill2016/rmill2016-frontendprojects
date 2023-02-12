@@ -13,3 +13,31 @@
         @apply relative after:absolute after:-bottom-[50px] after:left-0 after:w-0 hover:after:w-full hover:after:origin-left after:h-1 after:bg-primary-orange hover:after:transition-all hover:after:duration-500 hover:after:ease-in-out;
     }
 }
+
+div.swiper-button-prev {
+    background: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+}
+
+div.swiper-button-prev::after {
+    content: '';
+    background: url('../../public/images/icon-previous.svg') center center
+        no-repeat;
+    width: 20px;
+    height: 20px;
+}
+div.swiper-button-next {
+    background: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+}
+
+div.swiper-button-next::after {
+    content: '';
+    background: url('../../public/images/icon-next.svg') center center no-repeat;
+    width: 20px;
+    height: 20px;
+}

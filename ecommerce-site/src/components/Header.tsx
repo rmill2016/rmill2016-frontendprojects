@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Dispatch, SetStateAction } from 'react'
 import Link from 'next/link'
 import { AnimatePresence, motion } from 'framer-motion'
 import Cart from './Cart'
@@ -31,36 +31,40 @@ const navLinks = [
     },
 ]
 
-const Header = () => {
+const Header = (props: any) => {
     /* Toggling offcanvas menu */
     const [menu, setMenu] = useState<boolean>(false)
     /* Toggling Cart */
     const [cart, setCart] = useState<boolean>(false)
     /* Updating quanity of items within cart */
-    let items: number = 0
 
-    console.log(menu)
-
+    useEffect(() => {
+        if (menu) {
+            document.body.style.overflow = 'hidden'
+        } else {
+            document.body.style.overflow = 'unset'
+        }
+    }, [menu])
     return (
         <>
             <nav
                 id="mobileHeader"
                 className="z-[1] w-full h-auto lg:hidden relative"
             >
-                <div className="flex justify-between h-20 px-4 md:px-8 bg-neutral-white text-neutral-black">
-                    <div className="flex items-center justify-start w-full h-auto gap-4">
+                <div className="flex justify-between h-20 px-8 md:px-12 bg-neutral-white text-neutral-black">
+                    <div className="flex items-center justify-start w-full h-full gap-4">
                         <img
                             src="images/icon-menu.svg"
                             alt="menu"
                             onClick={() => setMenu(true)}
-                            className="w-6 h-auto cursor-pointer"
+                            className="w-4 h-auto mt-1 cursor-pointer"
                             aria-label="menu"
                         />
                         <Link href={'/'}>
                             <img
                                 src="images/logo.svg"
                                 alt="logo"
-                                className="w-40 h-auto cursor-pointer"
+                                className="w-32 h-auto cursor-pointer"
                             />
                         </Link>
                     </div>
@@ -72,16 +76,16 @@ const Header = () => {
                                 onClick={() => setCart(!cart)}
                                 className="object-cover"
                             />
-                            {items > 0 && (
-                                <span className="text-white bg-primary-orange w-fit h-auto px-1 absolute top-0 right-0 z-[2]">
-                                    {items}
+                            {props.items > 0 && (
+                                <span className="text-white bg-primary-orange w-auto h-auto px-2 absolute -top-2 -right-2 z-[2] pointer-events-none text-xs rounded-lg">
+                                    {props.items}
                                 </span>
                             )}
                         </div>
                         <img
                             src="images/image-avatar.png"
                             alt="avatar"
-                            className="w-8 h-auto rounded-full cursor-pointer"
+                            className="w-6 h-auto rounded-full cursor-pointer hover:border hover:border-primary-orange"
                         />
                     </div>
                 </div>
@@ -105,26 +109,28 @@ const Header = () => {
                         ease: 'easeInOut',
                     }}
                 >
-                    <div className="flex flex-col items-start justify-start gap-12 px-4 py-8 md:py-12 md:px-8">
+                    <div className="flex flex-col items-start justify-start gap-12 px-8 py-8 md:py-12 md:px-8">
                         <img
                             src="images/icon-close.svg"
                             alt="close"
                             onClick={() => setMenu(false)}
                             className="w-4 h-auto cursor-pointer md:w-6"
                         />
-                        <ul className="flex flex-col gap-6 text-2xl font-semibold list-none text-neutral-black">
-                            {navLinks.map((link) => (
-                                <Link key={link.id} href={link.to}>
-                                    <li className="cursor-pointer">
-                                        {link.name}
-                                    </li>
-                                </Link>
-                            ))}
-                        </ul>
+                        <motion.ul className="flex flex-col gap-6 text-2xl font-semibold list-none text-neutral-black">
+                            <AnimatePresence>
+                                {navLinks.map((link) => (
+                                    <Link key={link.id} href={link.to}>
+                                        <motion.li className="cursor-pointer">
+                                            {link.name}
+                                        </motion.li>
+                                    </Link>
+                                ))}
+                            </AnimatePresence>
+                        </motion.ul>
                     </div>
                 </motion.aside>
                 <div className="absolute left-0 w-full h-auto p-2 pointer-events-none top-20 aspect-square lg:hidden">
-                    {cart && <Cart items={items} />}
+                    {cart && <Cart items={props.items} />}
                 </div>
             </nav>
             <nav
@@ -154,9 +160,9 @@ const Header = () => {
                             alt="cart"
                             className="object-cover"
                         />
-                        {items > 0 && (
+                        {props.items > 0 && (
                             <span className="text-white bg-primary-orange w-fit h-auto px-1 absolute top-0 right-0 z-[2]">
-                                {items}
+                                {props.items}
                             </span>
                         )}
                     </div>

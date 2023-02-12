@@ -7,3 +7,9 @@
         @apply font-kumbh;
     }
 }
+
+@layer utilities {
+    .link-l-r {
+        @apply relative after:absolute after:-bottom-[50px] after:left-0 after:w-0 hover:after:w-full hover:after:origin-left after:h-1 after:bg-primary-orange hover:after:transition-all hover:after:duration-500 hover:after:ease-in-out;
+    }
+}

@@ -33,22 +33,24 @@ const images: Array<Images> = [
 
 const Slider = () => {
     return (
-        <Swiper
-            className="z-0 w-full h-full"
-            modules={[Navigation]}
-            navigation
-            loop
-        >
-            {images.map((image) => (
-                <SwiperSlide key={image.id} className="w-auto h-auto">
-                    <img
-                        src={image.src}
-                        alt={image.alt}
-                        className="w-full h-auto aspect-square"
-                    />
-                </SwiperSlide>
-            ))}
-        </Swiper>
+        <section className="w-full h-auto">
+            <Swiper
+                className="z-0 w-full h-full"
+                modules={[Navigation]}
+                navigation
+                loop
+            >
+                {images.map((image) => (
+                    <SwiperSlide key={image.id} className="w-auto h-auto">
+                        <img
+                            src={image.src}
+                            alt={image.alt}
+                            className="w-full h-auto lg:max-w-[600px] aspect-square lg:rounded-3xl"
+                        />
+                    </SwiperSlide>
+                ))}
+            </Swiper>
+        </section>
     )
 }
 
